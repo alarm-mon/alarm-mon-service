@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
     value = "teams-notification-client",
-    url = "${teams.notification.url}"
+    url = "${notification.teams.crossfit-url}"
 )
 public interface TeamsNotificationClient {
 

@@ -22,10 +22,10 @@ public class CrossfitSchedulerService {
     private final CrossfitRepository crossfitRepository;
 
     /**
-     * 월요일, 목요일 오전 8시 와드 정보 알람 전송
+     * 평일 오전 8시 실행
      */
 //    @Scheduled(fixedDelay = 1000 * 20)
-    @Scheduled(cron = "0 0 8 * * MON,THU")
+    @Scheduled(cron = "0 0 8 * * MON-FRI")
     public void sendWOD() throws InterruptedException {
         String text = getWODText();
 
