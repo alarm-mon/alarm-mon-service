@@ -1,0 +1,28 @@
+name: Deploy to Github Action
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        env:
+            TEST: ${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}
+        run: echo $TEST
+
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Set up JDK 11
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '11'
+#          distribution: 'temurin'
+#
+##      - name: setting env
+##        run: |
+##          echo "NOTI_TEAMS_CROSSFIT_URL=${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}" > .env
+#
+#      - name: Build with Gradle
+#        run: ./gradlew clean build
