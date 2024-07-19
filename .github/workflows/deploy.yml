@@ -16,12 +16,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Generate application.yml
-        run: |
-          echo "notification:" > src/main/resources/application.yml
-          echo "  teams:" >> src/main/resources/application.yml
-          echo "    crossfit-url: ${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}" >> src/main/resources/application.yml
-
+      - name: init application.yml
+        run: echo "init application.yml"
+        env:
+          TEAMS_CROSSFIT_NOTI_URL: ${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}
 
       - name: Build with Gradle
         run: ./gradlew clean build
