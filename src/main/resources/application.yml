@@ -4,4 +4,4 @@ spring:
 
 notification:
   teams:
-    crossfit-url: ${{secrets.TEAMS_CROSSFIT_NOTI_URL}}
+    crossfit-url: ${TEAMS_CROSSFIT_NOTI_URL}
