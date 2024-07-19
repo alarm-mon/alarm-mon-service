@@ -16,9 +16,12 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - run: touch ./src/main/resources/application-secret-key.properties
-      - run: echo "${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}" > ./src/main/resources/application-secret-key.properties
-      - run: cat ./src/main/resources/application-secret-key.properties
+      - name: Generate application.yml
+        run: |
+          echo "notification:" > src/main/resources/application.yml
+          echo "  teams:" >> src/main/resources/application.yml
+          echo "    crossfit-url: ${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}" >> src/main/resources/application.yml
+
 
       - name: Build with Gradle
         run: ./gradlew clean build
