@@ -9,6 +9,7 @@ jobs:
     env:
       TEAMS_CROSSFIT_NOTI_URL: ${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}
       CODE_DEPLOY_APPLICATION_NAME: codedeploy-app
+      S3_BUCKET_NAME: alarmmon-github-action-s3-bucket
 
     steps:
       - name: Checkout
@@ -30,10 +31,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
           aws-region: ap-northeast-2
 
-      - name: upload to AWS S3
+      - name: Upload to AWS S3
         run: |
-          aws deploy push \ 
-          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
-          --ignore-hidden-files \
-          --s3-location s3://$AWS_S3_BUCKET/cicdtest/$GITHUB_SHA.zip \
-          --source .
+          aws deploy push \
+            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+            --ignore-hidden-files \
+            --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
+            --source .
