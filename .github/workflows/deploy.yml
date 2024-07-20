@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEAMS_CROSSFIT_NOTI_URL: ${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}
+      CODE_DEPLOY_APPLICATION_NAME: codedeploy-app
 
     steps:
       - name: Checkout
@@ -21,3 +22,13 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew clean build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+          aws-region: ap-northeast-2
+
+      - name: upload to AWS S3
+        run: aws deploy push --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} --ignore-hidden-files --s3-location s3://$AWS_S3_BUCKET/cicdtest/$GITHUB_SHA.zip --source .
