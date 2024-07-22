@@ -50,5 +50,6 @@ jobs:
 
       - name: Run start.sh with environment variables
         run: |
+          chmod +x ./scripts/start.sh 
           export TEAMS_CROSSFIT_NOTI_URL=${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}
           ./scripts/start.sh
