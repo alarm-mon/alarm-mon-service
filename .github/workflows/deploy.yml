@@ -32,6 +32,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
           aws-region: ap-northeast-2
 
+      - name: Create environment variable file
+        run: echo "TEAMS_CROSSFIT_NOTI_URL=${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}" > .env
+
       - name: Upload to AWS S3
         run: |
           aws deploy push \
@@ -47,9 +50,3 @@ jobs:
             --deployment-config-name CodeDeployDefault.AllAtOnce \
             --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
             --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
-
-      - name: Run start.sh with environment variables
-        run: |
-          chmod +x ./scripts/start.sh 
-          export TEAMS_CROSSFIT_NOTI_URL=${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}
-          ./scripts/start.sh
