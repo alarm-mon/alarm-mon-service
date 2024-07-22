@@ -7,7 +7,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      TEAMS_CROSSFIT_NOTI_URL: ${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}
       CODE_DEPLOY_APPLICATION_NAME: codedeploy-app
       CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: codedeploy-group
       S3_BUCKET_NAME: alarmmon-github-action-s3-bucket
@@ -31,9 +30,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
           aws-region: ap-northeast-2
-
-      - name: Create environment variable file
-        run: echo "TEAMS_CROSSFIT_NOTI_URL=${{ secrets.TEAMS_CROSSFIT_NOTI_URL }}" > .env
 
       - name: Upload to AWS S3
         run: |

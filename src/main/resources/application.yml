@@ -7,4 +7,4 @@ spring:
 
 notification:
   teams:
-    crossfit-url: ${TEAMS_CROSSFIT_NOTI_URL}
+    crossfit-url: https://prod2-24.koreacentral.logic.azure.com:443/workflows/db1c0928bb874e89be6270107c1d6dcc/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=m4_P-xEJEmKADOiHt6LMXGw5PScT8ie7IE_Nxc58hy8
