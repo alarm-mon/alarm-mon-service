@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,5 +19,12 @@ public class CrossfitController {
     @GetMapping("/wod")
     public ResponseEntity<String[]> getWOD() {
         return new ResponseEntity<>(crossfitService.getWODTexts(), HttpStatus.OK);
+    }
+
+    @PostMapping("/wod/noti")
+    public ResponseEntity<Void> sandNotificationWOD() {
+        crossfitService.sendWOD();
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

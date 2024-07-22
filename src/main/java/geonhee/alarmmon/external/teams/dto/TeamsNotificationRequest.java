@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -41,6 +42,7 @@ public class TeamsNotificationRequest {
         private final String schema;
         private final String type;
         private final String version;
+        private final MsTeams msteams;
         @JsonProperty("body")
         private List<Body> bodies;
 
@@ -48,6 +50,7 @@ public class TeamsNotificationRequest {
             this.schema = "http://adaptivecards.io/schemas/adaptive-card.json";
             this.type = "AdaptiveCard";
             this.version = "1.2";
+            this.msteams = new MsTeams("Full");
             bodies = new ArrayList<>();
             Body title = Body.builder()
                 .text("오늘의 WOD 입니다. 삐빅-")
@@ -69,6 +72,14 @@ public class TeamsNotificationRequest {
     }
 
     @Getter
+    @AllArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class MsTeams {
+
+        private String width;
+    }
+
+    @Getter
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Body {
 
@@ -79,6 +90,7 @@ public class TeamsNotificationRequest {
         private String horizontalAlignment;
         private String color;
         private String url;
+        private boolean wrap;
 
         public Body(String text) {
             this(text, null, null, null, null, null);
@@ -93,6 +105,7 @@ public class TeamsNotificationRequest {
             this.weight = weight;
             this.horizontalAlignment = horizontalAlignment;
             this.color = color;
+            this.wrap = true;
         }
     }
 }
