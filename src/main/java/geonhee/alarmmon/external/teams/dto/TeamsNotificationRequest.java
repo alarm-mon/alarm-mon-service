@@ -2,6 +2,7 @@ package geonhee.alarmmon.external.teams.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,6 +49,7 @@ public class TeamsNotificationRequest {
             this.type = "AdaptiveCard";
             this.version = "1.2";
             this.msteams = new MsTeams("Full");
+            bodies = new ArrayList<>();
             bodies.add(Body.createTitle(title));
             bodies.addAll(texts);
         }
