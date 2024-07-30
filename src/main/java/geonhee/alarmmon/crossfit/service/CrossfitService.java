@@ -1,7 +1,10 @@
 package geonhee.alarmmon.crossfit.service;
 
+import geonhee.alarmmon.external.teams.dto.TeamsNotificationRequest.Body;
 import geonhee.alarmmon.external.teams.service.NotificationService;
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +27,14 @@ public class CrossfitService {
     private final NotificationService notificationService;
 
     public void sendWOD() {
-        notificationService.send(getWODText());
+        Body date = Body.builder()
+            .text(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
+            .weight("Bolder")
+            .horizontalAlignment("Center")
+            .build();
+        Body content = new Body(getWODText());
+
+        notificationService.send("오늘의 WOD 입니다. 삐빅-", date, content);
     }
 
     public String[] getWODTexts() {

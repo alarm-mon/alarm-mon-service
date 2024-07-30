@@ -2,9 +2,6 @@ package geonhee.alarmmon.external.teams.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,9 +13,9 @@ public class TeamsNotificationRequest {
     private final String type;
     private final List<Attachment> attachments;
 
-    public TeamsNotificationRequest(String text) {
+    public TeamsNotificationRequest(String title, List<Body> texts) {
         this.type = "message";
-        attachments = List.of(new Attachment(text));
+        attachments = List.of(new Attachment(title, texts));
     }
 
     @Getter
@@ -28,9 +25,9 @@ public class TeamsNotificationRequest {
         private final Content content;
         private String contentUrl;
 
-        public Attachment(String text) {
+        public Attachment(String title, List<Body> texts) {
             this.contentType = "application/vnd.microsoft.card.adaptive";
-            this.content = new Content(text);
+            this.content = new Content(title, texts);
             this.contentUrl = null;
         }
     }
@@ -46,28 +43,13 @@ public class TeamsNotificationRequest {
         @JsonProperty("body")
         private List<Body> bodies;
 
-        public Content(String text) {
+        public Content(String title, List<Body> texts) {
             this.schema = "http://adaptivecards.io/schemas/adaptive-card.json";
             this.type = "AdaptiveCard";
             this.version = "1.2";
             this.msteams = new MsTeams("Full");
-            bodies = new ArrayList<>();
-            Body title = Body.builder()
-                .text("오늘의 WOD 입니다. 삐빅-")
-                .size("ExtraLarge")
-                .weight("Bolder")
-                .horizontalAlignment("Center")
-                .color("Accent")
-                .build();
-            Body date = Body.builder()
-                .text(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
-                .weight("Bolder")
-                .horizontalAlignment("Center")
-                .build();
-            Body content = new Body(text);
-            bodies.add(title);
-            bodies.add(date);
-            bodies.add(content);
+            bodies.add(Body.createTitle(title));
+            bodies.addAll(texts);
         }
     }
 
@@ -106,6 +88,16 @@ public class TeamsNotificationRequest {
             this.horizontalAlignment = horizontalAlignment;
             this.color = color;
             this.wrap = true;
+        }
+
+        public static Body createTitle(String title) {
+            return Body.builder()
+                .text(title)
+                .size("ExtraLarge")
+                .weight("Bolder")
+                .horizontalAlignment("Center")
+                .color("Accent")
+                .build();
         }
     }
 }
