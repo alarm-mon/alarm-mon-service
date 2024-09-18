@@ -21,10 +21,22 @@ public class CrossfitController {
         return new ResponseEntity<>(crossfitService.getWODTexts(), HttpStatus.OK);
     }
 
+    @PostMapping("/termination/noti")
+    public ResponseEntity<Void> sendServiceTerminationNotification() {
+        crossfitService.sendServiceTermination();
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/wod/noti")
     public ResponseEntity<Void> sandNotificationWOD() {
         crossfitService.sendWOD();
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/wod/noti/week")
+    public ResponseEntity<String[]> getNotificationSchedule() {
+        return new ResponseEntity<>(crossfitService.getWODTexts(), HttpStatus.OK);
     }
 }

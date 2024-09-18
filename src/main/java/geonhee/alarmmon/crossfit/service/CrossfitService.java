@@ -26,6 +26,17 @@ public class CrossfitService {
 
     private final NotificationService notificationService;
 
+    public void sendServiceTermination() {
+        Body date = Body.builder()
+            .text(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
+            .weight("Bolder")
+            .horizontalAlignment("Center")
+            .build();
+        Body content = new Body("ㅂㅂ");
+
+        notificationService.send("테디짐 크로스핏 서비스가 종료되었습니다. 삐빅-", date, content);
+    }
+
     public void sendWOD() {
         Body date = Body.builder()
             .text(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
