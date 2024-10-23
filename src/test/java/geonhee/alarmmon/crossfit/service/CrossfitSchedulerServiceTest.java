@@ -17,7 +17,7 @@ public class CrossfitSchedulerServiceTest {
     @Test
     void sendWODTest() throws InterruptedException {
         // given
-        String id = "1";
+        String id = "2";
         // when
         WodResponse wod = crossfitSchedulerService.sendWOD(id);
         // then

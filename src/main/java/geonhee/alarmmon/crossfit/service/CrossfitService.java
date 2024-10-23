@@ -27,30 +27,28 @@ import java.util.List;
 public class CrossfitService {
 
     private final NotificationService notificationService;
-
     private static final String searchUri = "https://search.naver.com/search.naver?ssc=tab.nx.all&where=nexearch&sm=tab_dgs&qdt=0&query=";
-    /**
-     * 평일 오전 8시 실행
-     */
-//    @Scheduled(fixedDelay = 1000 * 20)
-//    @Scheduled(cron = "0 0 8 * * MON-FRI")
+
+    public List<String> titles = new ArrayList<>();
+
     public WodResponse sendWOD(String id) throws InterruptedException {
         WodResponse res = new WodResponse();
         BoxNameCode boxNameCode = BoxNameCode.findByBoxCode(id);
 
+        // 1. title 조회
         String title = getWODTitle(boxNameCode.getBoxUri());
-        List<String> wodTexts = getWODTextFromSearch(title);
+        if (titles.contains(title)) {
+            return res;
+        }
 
+        // 2. 네이버 검색으로 와드 추출
+        List<String> wodTexts = getWODTextFromSearch(title);
         res.setWodTexts(wodTexts);
 
-        System.out.println(res.getWodTexts());
-        Body date = Body.builder()
-                .text(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
-                .weight("Bolder")
-                .horizontalAlignment("Center")
-                .build();
-        Body content = new Body(String.join("\n\n", wodTexts));
-        notificationService.send("오늘의 WOD 입니다. 삐빅-", date, content);
+        // 3. 팀즈로 알림 전송
+        sendNotification(wodTexts);
+
+        titles.add(title);
         return res;
     }
 
@@ -58,7 +56,6 @@ public class CrossfitService {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("headless"); // background 실행 옵션 추가
         ChromeDriver webDriver = new ChromeDriver(options);
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
 
         try {
             webDriver.get(uri);
@@ -92,10 +89,8 @@ public class CrossfitService {
             List<WebElement> elements = newIframe.findElements(By.className("se-text-paragraph"));
             List<String> text = new ArrayList<>();
             for (WebElement webElement : elements) {
-                if (webElement.getText().isEmpty()) {
-                    continue;
-                }
-                text.addAll(Arrays.stream(webElement.getText().split("\n")).toList());
+                System.out.println(webElement.getText());
+                text.add(webElement.getText());
             }
 
             System.out.println("wodTexts : " + text);
@@ -104,4 +99,15 @@ public class CrossfitService {
             webDriver.quit();
         }
     }
+
+    private void sendNotification(List<String> wodTexts) {
+        Body date = Body.builder()
+                .text(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
+                .weight("Bolder")
+                .horizontalAlignment("Center")
+                .build();
+        Body content = new Body(String.join("\n\n", wodTexts));
+        notificationService.send("오늘의 WOD 입니다. 삐빅-", date, content);
+    }
+
 }
