@@ -12,7 +12,7 @@ public class CrossfitSchedulerController {
     private final CrossfitService crossfitService;
 
 //    @Scheduled(cron = "0 0 8 * * MON-FRI")
-    public void sendWODNotification() {
-        crossfitService.sendWOD();
-    }
+//    public void sendWODNotification() {
+//        crossfitService.sendWOD();
+//    }
 }
