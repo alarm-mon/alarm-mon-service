@@ -1,5 +1,6 @@
 package geonhee.alarmmon.crossfit.controller;
 
+import geonhee.alarmmon.crossfit.constant.Box;
 import geonhee.alarmmon.crossfit.dtos.WodResponse;
 import geonhee.alarmmon.crossfit.service.CrossfitService;
 import lombok.RequiredArgsConstructor;
@@ -40,9 +41,9 @@ public class CrossfitController {
 //        return new ResponseEntity<>(crossfitService.getWODTexts(), HttpStatus.OK);
 //    }
 
-    @GetMapping("/daily/wod/{id}")
-    public ResponseEntity<WodResponse> getDailyWod(@PathVariable String id) throws InterruptedException {
-        WodResponse wod = crossfitService.sendWOD(id);
+    @GetMapping("/daily/wod/{boxCode}")
+    public ResponseEntity<WodResponse> getDailyWod(@PathVariable String boxCode) throws InterruptedException {
+        WodResponse wod = crossfitService.sendWOD(Box.valueOf(boxCode));
         return ResponseEntity.ok(wod);
     }
 }

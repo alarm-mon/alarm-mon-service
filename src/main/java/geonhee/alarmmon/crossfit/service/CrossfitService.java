@@ -1,6 +1,6 @@
 package geonhee.alarmmon.crossfit.service;
 
-import geonhee.alarmmon.crossfit.constant.BoxNameCode;
+import geonhee.alarmmon.crossfit.constant.Box;
 import geonhee.alarmmon.crossfit.dtos.WodResponse;
 import geonhee.alarmmon.external.teams.service.NotificationService;
 import geonhee.alarmmon.external.teams.dto.TeamsNotificationRequest.Body;
@@ -11,14 +11,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -31,25 +28,24 @@ public class CrossfitService {
 
     public List<String> titles = new ArrayList<>();
 
-    public WodResponse sendWOD(String id) throws InterruptedException {
-        WodResponse res = new WodResponse();
-        BoxNameCode boxNameCode = BoxNameCode.findByBoxCode(id);
+    public WodResponse sendWOD(Box box) throws InterruptedException {
+        WodResponse response = new WodResponse();
 
         // 1. title 조회
-        String title = getWODTitle(boxNameCode.getBoxUri());
+        String title = getWODTitle(box.getUrl());
         if (titles.contains(title)) {
-            return res;
+            return response;
         }
 
         // 2. 네이버 검색으로 와드 추출
         List<String> wodTexts = getWODTextFromSearch(title);
-        res.setWodTexts(wodTexts);
+        response.setWodTexts(wodTexts);
 
         // 3. 팀즈로 알림 전송
-        sendNotification(wodTexts);
+        sendNotification(box.getName(), wodTexts);
 
         titles.add(title);
-        return res;
+        return response;
     }
 
     protected String getWODTitle(String uri) throws InterruptedException {
@@ -100,14 +96,12 @@ public class CrossfitService {
         }
     }
 
-    private void sendNotification(List<String> wodTexts) {
-        Body date = Body.builder()
-                .text(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
-                .weight("Bolder")
-                .horizontalAlignment("Center")
-                .build();
+    private void sendNotification(String boxName, List<String> wodTexts) {
+        Body box = Body.createSubTitle(boxName);
+        Body date = Body.createSubTitle(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")));
         Body content = new Body(String.join("\n\n", wodTexts));
-        notificationService.send("오늘의 WOD 입니다. 삐빅-", date, content);
+
+        notificationService.send("오늘의 WOD 입니다. 삐빅-", box, date, content);
     }
 
 }

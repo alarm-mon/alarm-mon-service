@@ -1,5 +1,6 @@
 package geonhee.alarmmon.crossfit.controller;
 
+import geonhee.alarmmon.crossfit.constant.Box;
 import geonhee.alarmmon.crossfit.service.CrossfitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,12 +14,12 @@ public class CrossfitSchedulerController {
 
     @Scheduled(cron = "0 0 8 * * MON-FRI")
     public void sendWODNotificationMateSunae() throws InterruptedException {
-        crossfitService.sendWOD("1");
+        crossfitService.sendWOD(Box.CROSSFIT_MATE_SUNAE);
     }
 
 
     @Scheduled(cron = "0 5 8 * * ?")
     public void sendWODNotificationJolly() throws InterruptedException {
-        crossfitService.sendWOD("2");
+        crossfitService.sendWOD(Box.CROSSFIT_JOLLY_SIHEUNG);
     }
 }

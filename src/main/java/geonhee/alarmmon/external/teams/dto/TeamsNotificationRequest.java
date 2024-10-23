@@ -2,6 +2,8 @@ package geonhee.alarmmon.external.teams.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -99,6 +101,14 @@ public class TeamsNotificationRequest {
                 .weight("Bolder")
                 .horizontalAlignment("Center")
                 .color("Accent")
+                .build();
+        }
+
+        public static Body createSubTitle(String subTitle) {
+            return Body.builder()
+                .text(subTitle)
+                .weight("Bolder")
+                .horizontalAlignment("Center")
                 .build();
         }
     }
