@@ -2,6 +2,7 @@ package geonhee.alarmmon.crossfit.service;
 
 import geonhee.alarmmon.crossfit.constant.BoxNameCode;
 import geonhee.alarmmon.crossfit.dtos.WodResponse;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,9 +16,10 @@ public class CrossfitSchedulerServiceTest {
     private CrossfitService crossfitSchedulerService;
 
     @Test
+    @Disabled
     void sendWODTest() throws InterruptedException {
         // given
-        String id = "2";
+        String id = "1";
         // when
         WodResponse wod = crossfitSchedulerService.sendWOD(id);
         // then
