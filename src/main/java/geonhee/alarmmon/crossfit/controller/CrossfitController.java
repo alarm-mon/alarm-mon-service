@@ -1,12 +1,16 @@
 package geonhee.alarmmon.crossfit.controller;
 
 import geonhee.alarmmon.crossfit.constant.Box;
+import geonhee.alarmmon.crossfit.dtos.KakaoRequest;
 import geonhee.alarmmon.crossfit.dtos.WodResponse;
+import geonhee.alarmmon.crossfit.dtos.vo.WodBotVO;
 import geonhee.alarmmon.crossfit.service.CrossfitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +47,13 @@ public class CrossfitController {
 
     @GetMapping("/daily/wod/{boxCode}")
     public ResponseEntity<WodResponse> getDailyWod(@PathVariable String boxCode) throws InterruptedException {
+        WodResponse wod = crossfitService.sendWOD(Box.valueOf(boxCode));
+        return ResponseEntity.ok(wod);
+    }
+
+    @PostMapping("/daily/wod/kakao")
+    public ResponseEntity<WodResponse> getDailyWod(@RequestBody KakaoRequest<WodBotVO> request) throws InterruptedException {
+        String boxCode = request.getAction().getParams().getBoxCode();
         WodResponse wod = crossfitService.sendWOD(Box.valueOf(boxCode));
         return ResponseEntity.ok(wod);
     }
