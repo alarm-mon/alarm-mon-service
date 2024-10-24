@@ -46,13 +46,13 @@ public class CrossfitController {
 //    }
 
     @GetMapping("/daily/wod/{boxCode}")
-    public ResponseEntity<WodResponse> getDailyWod(@PathVariable String boxCode) throws InterruptedException {
+    public ResponseEntity<WodResponse> getDailyWod(@PathVariable String boxCode) throws Exception {
         WodResponse wod = crossfitService.sendWOD(Box.valueOf(boxCode));
         return ResponseEntity.ok(wod);
     }
 
     @PostMapping("/daily/wod/kakao")
-    public ResponseEntity<WodResponse> getDailyWod(@RequestBody KakaoRequest<WodBotVO> request) throws InterruptedException {
+    public ResponseEntity<WodResponse> getDailyWod(@RequestBody KakaoRequest<WodBotVO> request) throws Exception {
         String boxCode = request.getAction().getParams().getBoxCode();
         WodResponse wod = crossfitService.sendWOD(Box.valueOf(boxCode));
         return ResponseEntity.ok(wod);

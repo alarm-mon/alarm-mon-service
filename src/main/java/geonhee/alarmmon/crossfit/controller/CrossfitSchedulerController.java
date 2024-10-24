@@ -13,13 +13,13 @@ public class CrossfitSchedulerController {
     private final CrossfitService crossfitService;
 
     @Scheduled(cron = "0 0 8 * * MON-FRI")
-    public void sendWODNotificationMateSunae() throws InterruptedException {
+    public void sendWODNotificationMateSunae() throws Exception {
         crossfitService.sendWOD(Box.CROSSFIT_MATE_SUNAE);
     }
 
 
     @Scheduled(cron = "0 5 8 * * ?")
-    public void sendWODNotificationJolly() throws InterruptedException {
+    public void sendWODNotificationJolly() throws Exception {
         crossfitService.sendWOD(Box.CROSSFIT_JOLLY_SIHEUNG);
     }
 }
