@@ -6,9 +6,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-
-import java.io.IOException;
 
 
 @SpringBootTest
@@ -18,7 +15,7 @@ public class CrossfitSchedulerServiceTest {
 
     @Test
     @Disabled
-    void sendWODTest() throws Exception {
+    void sendWODTest() throws InterruptedException {
         // given
         Box box = Box.CROSSFIT_MATE_SUNAE;
 
@@ -30,7 +27,7 @@ public class CrossfitSchedulerServiceTest {
     }
 
     @Test
-    void getWODTextTest() throws Exception {
+    void getWODTextTest() throws InterruptedException {
         // given
         String uri = Box.CROSSFIT_MATE_SUNAE.getUrl();
 
@@ -42,7 +39,7 @@ public class CrossfitSchedulerServiceTest {
     }
 
     @Test
-    void getWODTextFromSearchTest() throws Exception {
+    void getWODTextFromSearchTest() throws InterruptedException {
         // given
         String title = "2024.10.23 <EMOM>"; // 메이트 수내점
 //        String title = ""; // 졸리 시흥
