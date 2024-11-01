@@ -12,7 +12,7 @@ public class CrossfitSchedulerController {
 
     private final CrossfitService crossfitService;
 
-    @Scheduled(cron = "0 0 8 * * MON-FRI")
+    @Scheduled(cron = "0 0 8 * * MON,WED,THU")
     public void sendWODNotificationMateSunae() throws InterruptedException {
         crossfitService.sendWOD(Box.CROSSFIT_MATE_SUNAE);
     }

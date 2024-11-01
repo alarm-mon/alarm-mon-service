@@ -45,9 +45,9 @@ public class CrossfitController {
 //        return new ResponseEntity<>(crossfitService.getWODTexts(), HttpStatus.OK);
 //    }
 
-    @GetMapping("/daily/wod/{boxCode}")
-    public ResponseEntity<WodResponse> getDailyWod(@PathVariable String boxCode) throws InterruptedException {
-        WodResponse wod = crossfitService.sendWOD(Box.valueOf(boxCode));
+    @GetMapping("/daily/wod/{box}")
+    public ResponseEntity<WodResponse> getDailyWod(@PathVariable Box box) throws InterruptedException {
+        WodResponse wod = crossfitService.sendWOD(box);
         return ResponseEntity.ok(wod);
     }
 

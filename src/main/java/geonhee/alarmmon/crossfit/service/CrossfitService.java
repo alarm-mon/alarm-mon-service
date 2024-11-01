@@ -2,8 +2,12 @@ package geonhee.alarmmon.crossfit.service;
 
 import geonhee.alarmmon.crossfit.constant.Box;
 import geonhee.alarmmon.crossfit.dtos.WodResponse;
-import geonhee.alarmmon.external.teams.service.NotificationService;
 import geonhee.alarmmon.external.teams.dto.TeamsNotificationRequest.Body;
+import geonhee.alarmmon.external.teams.service.NotificationService;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -13,20 +17,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class CrossfitService {
 
-    private final NotificationService notificationService;
-    private static final String searchUri = "https://search.naver.com/search.naver?ssc=tab.nx.all&where=nexearch&sm=tab_dgs&qdt=0&query=";
+    private static final List<String> titles = new ArrayList<>();
+    private static final String NAVER_SEARCH_URL = "https://search.naver.com/search.naver?ssc=tab.nx.all&where=nexearch&sm=tab_dgs&qdt=0&query=";
 
-    public List<String> titles = new ArrayList<>();
+    private final NotificationService notificationService;
+
 
     public WodResponse sendWOD(Box box) throws InterruptedException {
         WodResponse response = new WodResponse();
@@ -48,7 +48,7 @@ public class CrossfitService {
         return response;
     }
 
-    protected String getWODTitle(String uri) throws InterruptedException {
+    protected String getWODTitle(String uri) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("headless"); // background 실행 옵션 추가
         ChromeDriver webDriver = new ChromeDriver(options);
@@ -70,7 +70,7 @@ public class CrossfitService {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("headless"); // background 실행 옵션 추가
         ChromeDriver webDriver = new ChromeDriver(options);
-        String uri = searchUri + "\"" + title + "\"";
+        String uri = NAVER_SEARCH_URL + "\"" + title + "\"";
         try {
             webDriver.get(uri);
 
