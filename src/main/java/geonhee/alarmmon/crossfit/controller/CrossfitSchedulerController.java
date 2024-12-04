@@ -12,7 +12,8 @@ public class CrossfitSchedulerController {
 
     private final CrossfitService crossfitService;
 
-    @Scheduled(cron = "0 0 8 * * MON,WED,THU")
+    // 2024.12.04 - 2025.01.05 홀딩으로 알람 임시 제거
+    // @Scheduled(cron = "0 0 8 * * MON,WED,THU")
     public void sendWODNotificationMateSunae() throws InterruptedException {
         crossfitService.sendWOD(Box.CROSSFIT_MATE_SUNAE);
     }
